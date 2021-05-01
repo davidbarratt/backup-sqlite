@@ -1,0 +1,15 @@
+name: Docker
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: docker login ghcr.io -u davidbarratt --password ${{ secrets.GITHUB_TOKEN }}
+      - run: docker build --tag ghcr.io/${GITHUB_REPOSITORY} .
+      - run: docker push ghcr.io/${GITHUB_REPOSITORY}
