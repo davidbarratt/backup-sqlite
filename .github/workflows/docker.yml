@@ -22,4 +22,4 @@ jobs:
           k8s-url: ${{ secrets.K8S_URL }}
           k8s-secret: ${{ secrets.K8S_SECRET }}
       - name: "Update resources on k8s cluster"
-        run: num=$(kubectl set image cronjob -l backup=sqlite backup=$(docker inspect --format='{{index .RepoDigests 0}}' ghcr.io/${GITHUB_REPOSITORY})); echo "Updated $num resources";
+        run: num=$(kubectl set image cronjob -l backup=sqlite backup=$(docker inspect --format='{{index .RepoDigests 0}}' ghcr.io/${GITHUB_REPOSITORY}) | wc -l); echo "Updated $num resources";
