@@ -15,7 +15,7 @@ jobs:
       - run: docker push ghcr.io/${GITHUB_REPOSITORY}
       - uses: azure/setup-kubectl@v1
         with:
-          version: '1.19.7'
+          version: 'v1.19.7'
       - uses: azure/k8s-set-context@v1
         with:
           method: service-account
