@@ -1,3 +1,5 @@
+set -e;
+
 if [[ -z "$BUCKET" ]]; then
     echo "Must provide BUCKET in environment" 1>&2
     exit 1
