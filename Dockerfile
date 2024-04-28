@@ -1,22 +1,13 @@
-FROM alpine
+FROM alpine:3.19
 
-LABEL org.opencontainers.image.source https://github.com/davidbarratt/backup-sqlite
-
-ENV S3_ACCESS_KEY=
-ENV S3_SECRET_KEY=
-ENV S3_BUCKET=
+ENV BUCKET=
 
 RUN apk add --no-cache  \
-    python3 \
-    py3-pip \
-    libmagic \
-    sqlite
+    sqlite \
+    curl \
+    onedrive
 
-RUN pip install \
-    python-magic \
-    s3cmd 
-
-RUN mkdir /opt/backup
+RUN mkdir -p /opt/OneDrive/Backup
 
 COPY backup.sh /opt/backup.sh
 

@@ -1,13 +1,16 @@
-for table in $(sqlite3 /opt/files/.ht.sqlite .tables); do
-    sqlite3 /opt/files/.ht.sqlite ".dump $table" > /opt/backup/$table.sql
+if [[ -z "$BUCKET" ]]; then
+    echo "Must provide BUCKET in environment" 1>&2
+    exit 1
+fi
+
+mkdir -p "/opt/OneDrive/Backup/$BUCKET";
+
+for table in $(sqlite3 /opt/files/main.sqlite .tables); do
+    sqlite3 /opt/files/main.sqlite ".dump $table" > /opt/OneDrive/Backup/$BUCKET/$table.sql
 done
 
-s3cmd \
-    --host="nyc3.digitaloceanspaces.com" \
-    --host-bucket="%(bucket)s.nyc3.digitaloceanspaces.com" \
-    --access_key="$S3_ACCESS_KEY" \
-    --secret_key="$S3_SECRET_KEY" \
-    --delete-removed \
-    --acl-private \
-    --default-mime-type="application/sql" \
-    sync /opt/backup/ s3://$S3_BUCKET/backup/
+onedrive \
+    --synchronize \
+    --upload-only \
+    --syncdir="/opt/OneDrive" \
+    --single-directory="Backup/$BUCKET"
