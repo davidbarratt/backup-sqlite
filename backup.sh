@@ -7,8 +7,8 @@ fi
 
 mkdir -p "/opt/OneDrive/Backup/$BUCKET";
 
-for table in $(sqlite3 /opt/files/main.sqlite .tables); do
-    sqlite3 /opt/files/main.sqlite ".dump $table" > /opt/OneDrive/Backup/$BUCKET/$table.sql
+for table in $(sqlite3 --readonly /opt/files/main.sqlite .tables); do
+    sqlite3 --readonly /opt/files/main.sqlite ".dump $table" > /opt/OneDrive/Backup/$BUCKET/$table.sql
 done
 
 onedrive \
